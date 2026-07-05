@@ -1,0 +1,38 @@
+{
+  "ledger_db": "bench-demo.db",
+  "season_start_ts": 1783123200,
+  "anchors_utc": [
+    8,
+    20
+  ],
+  "jitter_minutes": 30,
+  "max_event_wakes_per_day": 3,
+  "jitter_seed": "pmb-s0-preseason-cd1b7e2f",
+  "agents": [
+    {
+      "title": "pmb-s0-sonnet46-claudeacp",
+      "brainbase_id": "381ce219-addc-4cee-aa49-48210d4e2283",
+      "ledger_id": "agent_b8e69a36"
+    },
+    {
+      "title": "pmb-s0-gpt55-codexacp",
+      "brainbase_id": "9eae33e9-0ead-4cce-8715-e9f0013e04b2",
+      "ledger_id": "agent_377336f4"
+    },
+    {
+      "title": "pmb-s0-gemini25pro-claudeacp",
+      "brainbase_id": "5ba043f8-566b-4933-9ef3-0e7089efd72f",
+      "ledger_id": "agent_e6fd7eeb"
+    },
+    {
+      "title": "pmb-s0-grok4-claudeacp",
+      "brainbase_id": "fc8025cd-8aee-4151-a51d-50c7745770da",
+      "ledger_id": "agent_ee0167db"
+    },
+    {
+      "title": "pmb-s0-sonnet46-opencodeacp",
+      "brainbase_id": "85db798b-4113-4a0c-aeba-1db76781788f",
+      "ledger_id": "agent_f41a51f8"
+    }
+  ]
+}

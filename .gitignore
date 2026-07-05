@@ -1,0 +1,12 @@
+.env
+tenants.json
+*.db
+*.db-journal
+pmt-accounts/
+state.json
+bench-demo.db
+__pycache__/
+*.pyc
+*.log
+nohup.out
+.claude/

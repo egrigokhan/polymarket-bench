@@ -1,0 +1,6 @@
+fastmcp==2.3.3
+uvicorn>=0.30
+flask>=3.0
+requests>=2.31
+polymarket-paper-trader==0.1.6
+a2wsgi>=1.10
