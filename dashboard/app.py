@@ -243,9 +243,29 @@ def api_state():
     return jsonify(build_state())
 
 
+_swr_lock = {"refreshing": False}
+
+
+def _refresh_timeline():
+    try:
+        _cache["timeline"] = (time.time(), build_timeline())
+    finally:
+        _swr_lock["refreshing"] = False
+
+
 @app.route("/api/timeline")
 def api_timeline():
-    return jsonify(cached("timeline", 60, build_timeline))
+    import threading
+    ts, val = _cache.get("timeline", (0.0, None))
+    stale = time.time() - ts > 60
+    if val is None:
+        # first call ever: compute synchronously
+        val = build_timeline()
+        _cache["timeline"] = (time.time(), val)
+    elif stale and not _swr_lock["refreshing"]:
+        _swr_lock["refreshing"] = True
+        threading.Thread(target=_refresh_timeline, daemon=True).start()
+    return jsonify(val)
 
 
 PAGE = r"""
@@ -753,14 +773,14 @@ function route() {
 addEventListener("hashchange", route);
 
 async function refresh() {
-  const [state, tl] = await Promise.all([
-    fetch("/api/state").then(r => r.json()),
-    fetch("/api/timeline").then(r => r.json()),
-  ]);
-  lastState = state;
-  renderHome(state);
-  drawChart(tl);
-  route();
+  fetch("/api/state").then(r => r.json()).then(state => {
+    lastState = state;
+    renderHome(state);
+    route();
+  }).catch(() => {});
+  fetch("/api/timeline").then(r => r.json()).then(tl => {
+    if (!currentAgent()) drawChart(tl); else lastTimeline = tl;
+  }).catch(() => {});
 }
 refresh();
 setInterval(refresh, 60000);
